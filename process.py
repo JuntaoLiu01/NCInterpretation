@@ -92,7 +92,7 @@ def shape_data(version,mode="train",mask=False,mask_rate=None,add_head=False,use
     dn = os.path.join(DATA_DIR,"training",version)
     if not os.path.exists(dn):
         os.makedirs(dn)
-    fn = os.path.join(DATA_DIR,"training/{}_info.json".format(mode))
+    fn = os.path.join(DATA_DIR,"training/{}.json".format(mode))
     max_text_len = 0
     if mask:
         if mask_rate:
