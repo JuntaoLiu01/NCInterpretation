@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score,precision_score,f1_score,recall_score
 
-
 DATA_DIR = os.path.join(os.getcwd(),"data")
 
 def get_yearlypv(fn=None):

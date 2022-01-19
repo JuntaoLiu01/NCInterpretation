@@ -14,7 +14,5 @@ python joint.py \
 --obj_info \
 --lock_layers \
 --ugc_info \
---global_info \
---pair_info \
 --gate_mechanism \
---ugc_attention_type 1
+--ugc_attention_type 2

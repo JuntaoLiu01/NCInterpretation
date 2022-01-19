@@ -65,14 +65,16 @@ class DG(DataGenerator):
         self.gcn_type = gcn_type
         self.atten_type = atten_type
 
-        global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
-        global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
-        word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
+        if self._global:
+            global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
+            global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
+            self.global_node2id = json.load(open(global_node_fn,"r",encoding="utf-8"))
+            self.global_graph = json.load(open(global_graph_fn,"r",encoding="utf-8"))
+        if self.pair_info:
+            word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
+            self.word2id = json.load(open(word_fn,"r",encoding="utf-8"))
 
         self.rel2id = json.load(open(os.path.join(DATA_DIR,"relation.json"),"r",encoding="utf-8"))
-        self.global_node2id = json.load(open(global_node_fn,"r",encoding="utf-8"))
-        self.global_graph = json.load(open(global_graph_fn,"r",encoding="utf-8"))
-        self.word2id = json.load(open(word_fn,"r",encoding="utf-8"))
         super(DG,self).__init__(data,batch_size,**kwargs)
 
     def build_global_graph(self,s,o):
@@ -423,12 +425,12 @@ class AllModel:
             ugc_x = keras.layers.Reshape(target_shape=(bag_num,-1))(ugc_x)
             if self.ugc_attention_type == 2:
                 if self.subj_info and self.obj_info:
-                    RE_ATTEN = RelAttention(768*2,len(self.rel2id),training=training,bias=False)
+                    RE_ATTEN = RelAttention(len(self.rel2id),training=training,bias=False)
                 else:
-                    RE_ATTEN = RelAttention(768,len(self.rel2id),training=training,bias=False)
+                    RE_ATTEN = RelAttention(len(self.rel2id),training=training,bias=False)
                 ugc_x = RE_ATTEN([ugc_x,in_6])
             elif self.ugc_attention_type == 1:
-                SO_ATTEN = SOAttention(768*2,200)
+                SO_ATTEN = SOAttention()
                 ugc_x = SO_ATTEN([ugc_x,pair_x])
                 ugc_x = SUM(ugc_x)
             else:

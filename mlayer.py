@@ -117,7 +117,7 @@ class SOAttention(keras.layers.Layer):
         return tuple([None,input_shape[0][2]])
 
 class RelAttention(keras.layers.Layer):
-    def __init__(self,input_dim,rel_tot,training=True,bias=False,**kwargs):
+    def __init__(self,rel_tot,training=True,bias=False,**kwargs):
         # self.dim = input_dim
         self.rel_tot = rel_tot
         self.training = training

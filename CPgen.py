@@ -5,7 +5,7 @@ import json
 import time
 import random
 import keras
-import umap
+# import umap
 import numpy as np
 import pandas as pd
 import keras.backend.tensorflow_backend as K
@@ -23,10 +23,10 @@ ROOT_DIR = os.getcwd()
 DATA_DIR = os.path.join(ROOT_DIR,"data")
 MODEL_DIR = os.path.join(ROOT_DIR,"models")
 
-N = 15
-max_text = 26
+N = 23
+max_text = 24
 
-BERT_DIR = ""
+BERT_DIR = "bert"
 
 config_path = os.path.join(MODEL_DIR,BERT_DIR,"bert_config.json")
 checkpoint_path = os.path.join(MODEL_DIR,BERT_DIR,"bert_model.ckpt")
@@ -400,16 +400,16 @@ class CPModel:
         data.to_csv(out_fn)
      
 def main():    
-    train_fn = os.path.join(DATA_DIR,"PA/train_aug_v2.json")
-    valid_fn = os.path.join(DATA_DIR,"PA/valid_aug_v2.json")
+    train_fn = os.path.join(DATA_DIR,"PA/train.json")
+    valid_fn = os.path.join(DATA_DIR,"PA/valid.json")
     
     train_data = load_data(train_fn)
     valid_data = load_data(valid_fn)
     model = CPModel(50,32)
     model.train(train_data,valid_data)
 
-    out_fn = os.path.join(DATA_DIR,"PA/valid_res_v2_PAIR.json")
-    visualize_fn = os.path.join(DATA_DIR,"PA/visualize.csv")
+    out_fn = os.path.join(DATA_DIR,"PA/valid_res.json")
+    # visualize_fn = os.path.join(DATA_DIR,"PA/visualize.csv")
     # pair_mfn = os.path.join(MODEL_DIR,"model_CP_pair.h5")
     # sent_mfn = os.path.join(MODEL_DIR,"model_CP_sent.h5")
 

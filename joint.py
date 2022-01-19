@@ -96,14 +96,16 @@ class RCDG(DataGenerator):
         self.bag_num = args.bag_num
         self.max_text = args.ugc_text_len
 
-        global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
-        global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
-        word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
+        if self.global_info:
+            global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
+            global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
+            self.global_node2id = json.load(open(global_node_fn,"r",encoding="utf-8"))
+            self.global_graph = json.load(open(global_graph_fn,"r",encoding="utf-8"))
+        if self.pair_info:
+            word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
+            self.word2id = json.load(open(word_fn,"r",encoding="utf-8"))
 
         self.rel2id = json.load(open(os.path.join(DATA_DIR,"relation.json"),"r",encoding="utf-8"))
-        self.global_node2id = json.load(open(global_node_fn,"r",encoding="utf-8"))
-        self.global_graph = json.load(open(global_graph_fn,"r",encoding="utf-8"))
-        self.word2id = json.load(open(word_fn,"r",encoding="utf-8"))
         super(RCDG,self).__init__(data,batch_size,**kwargs)
 
     def build_global_graph(self,s,o):
@@ -377,7 +379,6 @@ class JointModel:
         self.rel2id = json.load(open(os.path.join(DATA_DIR,"relation.json"),"r",encoding="utf-8"))
 
         BERT_DIR = args.BERT_DIR
-        "/home/hadoop-aipnlp/cephfs/data/xuhuimin04/BertZoo"
         self.config_path = os.path.join(BERT_DIR,"bert_config.json")
         self.checkpoint_path = os.path.join(BERT_DIR,"bert_model.ckpt")
         self.dict_path = os.path.join(BERT_DIR,"vocab.txt")

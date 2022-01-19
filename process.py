@@ -2,7 +2,6 @@
 import os
 import json
 import random
-
 from ltp import LTP
 from tqdm import tqdm
 from utils import *
@@ -214,12 +213,6 @@ def build_global_graph(with_type=True,with_rel=True,neighbor_num=30):
         with open(os.path.join(dn,"global_graph.json"),"w",encoding="utf-8") as wf:
             json.dump(res,wf,ensure_ascii=False)
 
-        # f_count = [len(tmp[x]) for x in tmp]
-        # print(len(f_count))
-        # print(len([x for x in f_count if x <= 30]))
-        # plt.hist([x for x in f_count if x <= 30],bins="auto")
-        # plt.savefig(dn + "/node_neighbors.png")
-
     else:
         dn = os.path.join(DATA_DIR,"RC/rgcn_data")
         if not os.path.exists(dn):
@@ -274,12 +267,15 @@ def shape_para_data():
                 wf.write(json.dumps(d,ensure_ascii=False)+"\n")
     
 if __name__ == '__main__':
-    build_train_test_data()
+    ## split train & valid from labeled data
+    # build_train_test_data()
+
     shape_data(version="format",mode="train",mask=False,mask_rate=None,add_head=False,use_row=False)
     shape_data(version="format",mode="valid",mask=False,mask_rate=None,add_head=False,use_row=False)
 
-    build_global_graph(with_rel=False)
-    build_global_graph(with_rel=True)
+    ## need meituan taxonomy
+    # build_global_graph(with_rel=False)
+    # build_global_graph(with_rel=True)
 
     shape_para_data()
 
