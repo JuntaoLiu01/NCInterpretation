@@ -48,8 +48,8 @@ def init_tokenizer(dict_path):
     return tokenizer
 
 def build_embedding_matrix(model_name,level="word"):
-    train_fn = os.path.join(DATA_DIR,"training/train.json")
-    valid_fn = os.path.join(DATA_DIR,"training/valid.json")
+    train_fn = os.path.join(DATA_DIR,"RC/train.json")
+    valid_fn = os.path.join(DATA_DIR,"RC/valid.json")
     node2id = {}
     emd_matrix = []
     w2vmodel = Word2Vec.load(os.path.join(DATA_DIR,"nodeVec",model_name))
@@ -96,8 +96,8 @@ class RCDG(DataGenerator):
         self.bag_num = args.bag_num
         self.max_text = args.ugc_text_len
 
-        global_node_fn = os.path.join(DATA_DIR,"training/{}_data/node2id.json".format(self.gcn_type))
-        global_graph_fn = os.path.join(DATA_DIR,"training/{}_data/global_graph.json".format(self.gcn_type))
+        global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
+        global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
         word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
 
         self.rel2id = json.load(open(os.path.join(DATA_DIR,"relation.json"),"r",encoding="utf-8"))

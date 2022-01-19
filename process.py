@@ -37,10 +37,10 @@ def build_train_test_data(fn=None):
         }
         return x
 
-    if not os.path.exists(os.path.join(DATA_DIR,"training")):
-        os.makedirs(os.path.join(DATA_DIR,"training"))
-    with open(os.path.join(DATA_DIR,"training/train.json"),"w",encoding="utf-8") as wf_train,\
-        open(os.path.join(DATA_DIR,"training/valid.json"),"w",encoding="utf-8") as wf_valid:
+    if not os.path.exists(os.path.join(DATA_DIR,"RC")):
+        os.makedirs(os.path.join(DATA_DIR,"RC"))
+    with open(os.path.join(DATA_DIR,"RC/train.json"),"w",encoding="utf-8") as wf_train,\
+        open(os.path.join(DATA_DIR,"RC/valid.json"),"w",encoding="utf-8") as wf_valid:
         for r in data:
             samples = data[r]
             random.shuffle(samples)
@@ -89,10 +89,10 @@ def shape_data(version,mode="train",mask=False,mask_rate=None,add_head=False,use
     version: raw, mask: False, mask_rate: None, add_head: False, use_row: True
     """
     version = str(version)
-    dn = os.path.join(DATA_DIR,"training",version)
+    dn = os.path.join(DATA_DIR,"RC",version)
     if not os.path.exists(dn):
         os.makedirs(dn)
-    fn = os.path.join(DATA_DIR,"training/{}.json".format(mode))
+    fn = os.path.join(DATA_DIR,"RC/{}.json".format(mode))
     max_text_len = 0
     if mask:
         if mask_rate:
@@ -102,7 +102,7 @@ def shape_data(version,mode="train",mask=False,mask_rate=None,add_head=False,use
             mode = mode+"_gate"
             mask_dict = mask_strategy()
     with open(fn,"r",encoding="utf-8") as rf,\
-        open(os.path.join(DATA_DIR,"training/{}/{}_{}.json".format(version,mode,version)),"w",encoding="utf-8") as wf:
+        open(os.path.join(DATA_DIR,"RC/{}/{}_{}.json".format(version,mode,version)),"w",encoding="utf-8") as wf:
         for line in rf:
             d = json.loads(line)
             s = d["subject"]
@@ -149,7 +149,7 @@ def build_global_graph(with_type=True,with_rel=True,neighbor_num=30):
     count = 0
     valid_set = set()
     for mode in ["train","valid"]:
-        with open("./data/training/format/{}_format.json".format(mode),"r",encoding="utf-8") as rf:
+        with open("./data/RC/format/{}_format.json".format(mode),"r",encoding="utf-8") as rf:
             for line in rf:
                 d = json.loads(line)
                 s,o,p = d["subject"],d["object"],d["predicate"]
@@ -197,7 +197,7 @@ def build_global_graph(with_type=True,with_rel=True,neighbor_num=30):
     print(count)
     print(len(valid_set))
     if not with_rel:
-        dn = os.path.join(DATA_DIR,"training/gcn_data")
+        dn = os.path.join(DATA_DIR,"RC/gcn_data")
         if not os.path.exists(dn):
             os.makedirs(dn)
         res = {}
@@ -221,7 +221,7 @@ def build_global_graph(with_type=True,with_rel=True,neighbor_num=30):
         # plt.savefig(dn + "/node_neighbors.png")
 
     else:
-        dn = os.path.join(DATA_DIR,"training/rgcn_data")
+        dn = os.path.join(DATA_DIR,"RC/rgcn_data")
         if not os.path.exists(dn):
             os.makedirs(dn)
         res = {}
@@ -243,20 +243,6 @@ def build_global_graph(with_type=True,with_rel=True,neighbor_num=30):
         with open(os.path.join(dn,"global_graph.json"),"w",encoding="utf-8") as wf:
             json.dump(res,wf,ensure_ascii=False)
 
-        # r_count = {}
-        # for t in tmp:
-        #     for p in tmp[t]:
-        #         if not p in r_count:
-        #             r_count[p] = [len(tmp[t][p])]
-        #         else:
-        #             r_count[p].append(len(tmp[t][p]))
-        # if not os.path.exists(dn+"/imgs"):
-        #     os.makedirs(dn+"/imgs")
-        # for p in r_count:
-        #     plt.hist([x for x in r_count[p]],bins="auto")
-        #     plt.savefig(dn + "/imgs/{}_node_neighbors.png".format(p))
-        #     plt.close()
-
 def shape_para_data():
     ugc_text_num = 10
     ugc_dict = json.load(open(os.path.join(DATA_DIR,"ugc/ugc_pair_dep.json"),"r",encoding="utf-8"))
@@ -270,8 +256,8 @@ def shape_para_data():
         return texts
     
     for m in ["train","valid"]:
-        fn = "./data/explanation/{}.json".format(m)
-        wfn = "./data/explanation/{}_format.json".format(m)
+        fn = "./data/PA/{}.json".format(m)
+        wfn = "./data/PA/{}_format.json".format(m)
         with open(fn,"r",encoding="utf-8") as rf,\
             open(wfn,"w",encoding="utf-8") as wf:
             for line in rf:

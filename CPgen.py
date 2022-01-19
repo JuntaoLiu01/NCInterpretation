@@ -139,7 +139,7 @@ class SaveBest(keras.callbacks.Callback):
         self.sent_mfn = mfns[1]
         self.val_loss = 100.
         data = []
-        fn = os.path.join(DATA_DIR,"explanation/valid.json")
+        fn = os.path.join(DATA_DIR,"PA/valid.json")
         with open(fn,"r",encoding="utf-8") as rf:
             for line in rf:
                 d = json.loads(line)
@@ -400,16 +400,16 @@ class CPModel:
         data.to_csv(out_fn)
      
 def main():    
-    train_fn = os.path.join(DATA_DIR,"explanation/train_aug_v2.json")
-    valid_fn = os.path.join(DATA_DIR,"explanation/valid_aug_v2.json")
+    train_fn = os.path.join(DATA_DIR,"PA/train_aug_v2.json")
+    valid_fn = os.path.join(DATA_DIR,"PA/valid_aug_v2.json")
     
     train_data = load_data(train_fn)
     valid_data = load_data(valid_fn)
     model = CPModel(50,32)
     model.train(train_data,valid_data)
 
-    out_fn = os.path.join(DATA_DIR,"explanation/valid_res_v2_PAIR.json")
-    visualize_fn = os.path.join(DATA_DIR,"explanation/visualize.csv")
+    out_fn = os.path.join(DATA_DIR,"PA/valid_res_v2_PAIR.json")
+    visualize_fn = os.path.join(DATA_DIR,"PA/visualize.csv")
     # pair_mfn = os.path.join(MODEL_DIR,"model_CP_pair.h5")
     # sent_mfn = os.path.join(MODEL_DIR,"model_CP_sent.h5")
 

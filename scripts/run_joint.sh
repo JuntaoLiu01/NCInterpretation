@@ -2,8 +2,8 @@
 python joint.py \
 --rc_train_file ./data/training/format/train_format.json \
 --rc_valid_file ./data/training/format/valid_format.json \
---para_train_file ./data/explanation/train_format.json \
---para_valid_file ./data/explanation/valid_format.json \
+--para_train_file ./data/PA/train_format.json \
+--para_valid_file ./data/PA/valid_format.json \
 --BERT_DIR ./models/bert/
 --cuda_device 0 \
 --epochs 20 \

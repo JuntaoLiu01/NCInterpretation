@@ -65,8 +65,8 @@ class DG(DataGenerator):
         self.gcn_type = gcn_type
         self.atten_type = atten_type
 
-        global_node_fn = os.path.join(DATA_DIR,"training/{}_data/node2id.json".format(self.gcn_type))
-        global_graph_fn = os.path.join(DATA_DIR,"training/{}_data/global_graph.json".format(self.gcn_type))
+        global_node_fn = os.path.join(DATA_DIR,"RC/{}_data/node2id.json".format(self.gcn_type))
+        global_graph_fn = os.path.join(DATA_DIR,"RC/{}_data/global_graph.json".format(self.gcn_type))
         word_fn = os.path.join(DATA_DIR,"nodeVec/word2id.json")
 
         self.rel2id = json.load(open(os.path.join(DATA_DIR,"relation.json"),"r",encoding="utf-8"))
@@ -257,8 +257,8 @@ class DG(DataGenerator):
                 X1,X2,X3,X4,X5,X6,X7,X8,X9,Y = [],[],[],[],[],[],[],[],[],[]
 
 def build_embedding_matrix(model_name,level="word"):
-    train_fn = os.path.join(DATA_DIR,"training/train.json")
-    valid_fn = os.path.join(DATA_DIR,"training/valid.json")
+    train_fn = os.path.join(DATA_DIR,"RC/train.json")
+    valid_fn = os.path.join(DATA_DIR,"RC/valid.json")
     node2id = {}
     emd_matrix = []
     w2vmodel = Word2Vec.load(os.path.join(DATA_DIR,"nodeVec",model_name))

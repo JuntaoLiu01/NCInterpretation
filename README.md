@@ -1,4 +1,4 @@
-## Noun Compound (NC) interpration 
+## Noun Compound (NC) interpration
 
 ### File Description
 
@@ -14,8 +14,10 @@
 - **Keras:** 2.3.1
 - **bert4Keras:** 0.8.8
 
-### Data
+### Datasets
 
-- RC data: see `data/training/training`
-- Paraphrasing data: see `data/explanation`
+- RC data: see `data/RC`
+- Paraphrasing data: see `data/PA`
+- Overall evaluation data: see`data/Overall`
+
 
